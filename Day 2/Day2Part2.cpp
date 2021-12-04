@@ -6,7 +6,7 @@ int main(){
     inFile.open(".\\input.txt");
     std::string input[2000];
     for (int i = 0; i < 2000; i++){
-        (inFile >> input[i]);
+        inFile >> input[i];
     } 
     int forward{};
     int aim{};
