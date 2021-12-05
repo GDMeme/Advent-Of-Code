@@ -18,8 +18,14 @@ int main(){
     auto map = new int[1000][1000];
     bool negative{false};
     int number_of_marked{};
+    int xPositive{};
+    int yPositive{};
+    bool negative1{false};
+    bool negative2{false};
     for (int i = 0; i < 2000; i = i + 4){
         negative = false;
+        negative1 = false;
+        negative2 = false;
         if (input[i] == input[i+2]){ // the x values are equal
             number_of_marked = input[i+3] - input[i+1];
             if (number_of_marked < 0){
@@ -52,6 +58,36 @@ int main(){
                     map[input[i+1]][input[i]+a] += 1;
                 }
             }
+        } else { // diagonal line
+            xPositive = input[i+2] - input[i];
+            yPositive = input[i+3] - input[i+1];
+            if (xPositive < 0){
+                xPositive = -xPositive;
+                xPositive += 1;
+                negative1 = true;
+            } else{
+                xPositive += 1;
+            }
+            if (yPositive < 0){
+                yPositive = -yPositive;
+                yPositive += 1;
+                negative2 = true;
+            } else{
+                yPositive += 1;
+            }
+            for (int a = 0; a < yPositive; a++){ // mark the map
+                if ((negative1 == true) && (negative2 == true)){
+                    map[input[i+1]-a][input[i]-a] += 1;
+                } else if ((negative1 == true) && (negative2 == false)){
+                    map[input[i+1]+a][input[i]-a] += 1;
+                } else if ((negative1 == false) && (negative2 == true)){
+                    map[input[i+1]-a][input[i]+a] += 1;
+                } else if ((negative1 == false) && (negative2 == false)){
+                    map[input[i+1]+a][input[i]+a] += 1;
+                } else {
+                    std::cout << "how did u get here" << std::endl;
+                }
+            }
         }
     }
     int counter{};
@@ -60,7 +96,7 @@ int main(){
         for (int j = 0; j < 1000; j++){
             if (map[i][j] >= 2){
                 counter += 1;
-            } else if (map[i][j] > 0){
+            } else if (map[i][j] >= 0){
                 counter2 += 1;
             }
         }
