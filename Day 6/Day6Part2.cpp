@@ -4,6 +4,39 @@
 #include <string>
 #include <sstream>
 
+void calculateFish(int adultFish, int *daysLeft, int fishNumber, long long *totalFish, bool adult){
+    if (*daysLeft <= 0){
+        std::cout << "you ran out of days! " << std::endl;
+        std::cout << "your total number of fish is: " << *totalFish << std::endl;
+    }
+    while (*daysLeft > 0){
+        std::cout << " Real Days left: " << *daysLeft << std::endl;
+        if (adult == true){
+            if (((*daysLeft-fishNumber)-1)%7 == 0){
+                *totalFish += adultFish;
+                int new_days_left{*daysLeft - 7};
+                int new_days_left_2{*daysLeft - 9};
+                calculateFish(adultFish, &new_days_left, fishNumber, *&totalFish, adult);
+                adult = false;
+                std::cout << "Days left: " << new_days_left_2 << std::endl;
+                calculateFish(adultFish, &new_days_left_2, fishNumber, *&totalFish, adult);
+                *daysLeft -= 1;
+            } else {
+                *daysLeft -= 1;
+            }
+        } else if (adult == false){
+            if (*daysLeft-9 >= 0){
+                int new_days_left{*daysLeft - 9};
+                adult = true;
+                calculateFish(adultFish, &new_days_left, fishNumber, *&totalFish, adult);
+                *daysLeft -= 1;
+            } else {
+                *daysLeft -= 1;
+            }
+        }
+    }
+}
+
 int main(){
     std::ifstream inFile;
     std::vector<int> input;
@@ -44,27 +77,9 @@ int main(){
             counter6++;
         }
     } 
-    int counter01{};
-    int counter11{};
-    int counter21{};
-    int counter31{};
-    int counter41{};
-    int counter51{};
-    int counter61{};
-    int counter71{};
-    int counter81{};
-    for (int a = 0; a < days; a++){
-        int new_fish{};
-        if ((days+5)%7 == 0){
-            new_fish = counter1;
-            counter1 *= 2;
-            counter81 += new_fish;
-        }
-        if ((days >= 11) && (days-11)%9 == 0){
-            counter1 += counter81;
-            counter81 = 0;
-        }
-        
-    }
-    std::cout << "final answer: " << input.size();
+    long long totalFish{};
+    calculateFish(counter1, &days, 1, &totalFish, true);
+
+    days=256;
+    /* std::cout << "Total fish: " << totalFish << std::endl; */
 }
