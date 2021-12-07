@@ -4,39 +4,6 @@
 #include <string>
 #include <sstream>
 
-void calculateFish(int adultFish, int *daysLeft, int fishNumber, long long *totalFish, bool adult){
-    if (*daysLeft <= 0){
-        std::cout << "you ran out of days! " << std::endl;
-        std::cout << "your total number of fish is: " << *totalFish << std::endl;
-    }
-    while (*daysLeft > 0){
-        std::cout << " Real Days left: " << *daysLeft << std::endl;
-        if (adult == true){
-            if (((*daysLeft-fishNumber)-1)%7 == 0){
-                *totalFish += adultFish;
-                int new_days_left{*daysLeft - 7};
-                int new_days_left_2{*daysLeft - 9};
-                calculateFish(adultFish, &new_days_left, fishNumber, *&totalFish, adult);
-                adult = false;
-                std::cout << "Days left: " << new_days_left_2 << std::endl;
-                calculateFish(adultFish, &new_days_left_2, fishNumber, *&totalFish, adult);
-                *daysLeft -= 1;
-            } else {
-                *daysLeft -= 1;
-            }
-        } else if (adult == false){
-            if (*daysLeft-9 >= 0){
-                int new_days_left{*daysLeft - 9};
-                adult = true;
-                calculateFish(adultFish, &new_days_left, fishNumber, *&totalFish, adult);
-                *daysLeft -= 1;
-            } else {
-                *daysLeft -= 1;
-            }
-        }
-    }
-}
-
 int main(){
     std::ifstream inFile;
     std::vector<int> input;
@@ -59,8 +26,6 @@ int main(){
     int counter4{};
     int counter5{};
     int counter6{};
-    int counter7{};
-    int counter8{};
     int days{256};
     for (int i = 0; i < input.size(); i++){
         if (input[i] == 1){
@@ -73,13 +38,32 @@ int main(){
             counter4++;
         } else if (input[i] == 5){
             counter5++;
-        } else if (input[i] == 6){
-            counter6++;
         }
     } 
+    std::cout << "counter1: " << counter1 << std::endl;
+    std::cout << "counter2: " << counter2 << std::endl;
+    std::cout << "counter3: " << counter3 << std::endl;
+    std::cout << "counter4: " << counter4 << std::endl;
+    std::cout << "counter5: " << counter5 << std::endl;
     long long totalFish{};
-    calculateFish(counter1, &days, 1, &totalFish, true);
+    std::vector<long long int> fishArray{0, counter1, counter2, counter3, counter4, counter5, 0, 0, 0};
+    for (int i = 0; i < 256; i++){
+        long long temp{fishArray[0] + fishArray[7]};
+        long long temp2{fishArray[0]};
+        fishArray[0] = fishArray[1];
+        fishArray[1] = fishArray[2];
+        fishArray[2] = fishArray[3];
+        fishArray[3] = fishArray[4];
+        fishArray[4] = fishArray[5];
+        fishArray[5] = fishArray[6];
+        fishArray[6] = temp;
+        fishArray[7] = fishArray[8];
+        fishArray[8] = temp2;
+        
+    }
+    for (int i = 0; i < 9; i++){
+        totalFish += fishArray[i];
+    }
 
-    days=256;
-    /* std::cout << "Total fish: " << totalFish << std::endl; */
+    std::cout << "Total fish: " << totalFish << std::endl;
 }
