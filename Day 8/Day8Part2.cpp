@@ -136,7 +136,6 @@ int main(){
                 tempArray.push_back(temp4Letter[i]);
             }
         }
-
         bool found3{false};
         char middle{'z'};
         for (int i = 0; i < tempArray.size(); i++){
@@ -166,7 +165,6 @@ int main(){
                 i++;
             }
         }
-        
         bool found4{false};
         char down{'z'};
         for (int i = 0; i < comparisonArray2.size(); i++){
@@ -181,7 +179,6 @@ int main(){
             }
             found4 = false;
         } // found down (g)
-        
         int j{0};
         while (comparisonArray2.size() != 2){
             if (comparisonArray2[j] == down){
@@ -192,7 +189,6 @@ int main(){
         }
         // comparisonArray2 has c and f
         bool found5{false};
-
         std::vector <std::string> temp5Letters{temp5Letter, temp5Letter2, temp5Letter3};
         // find the number 5 out of the 3 temp5Letters and remove it from temp5Letters
         for (int i = 0; i < 5; i++){
@@ -227,8 +223,8 @@ int main(){
                     }
                 }
             }
-        }
-        if (top_right == 'z'){
+        } 
+        if (top_right == 'z'){ // this means comparisonArray2[0] != top_right 
             top_right = comparisonArray2[1];
             bottom_right = comparisonArray2[0];
         }
