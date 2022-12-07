@@ -62,7 +62,7 @@ for (let i = 0; i < arr.length; i++) {
                         onlyDirectories = false;
                         if (directorySize[currentIndex] === undefined) {
                             directorySize[currentIndex] = parseInt(arr[i].split(' ')[0]);
-                            directoryPath[currentIndex] = currentDirectoryPath; // in case it only contains directories
+                            directoryPath[currentIndex] = currentDirectoryPath;
                         } else {
                             directorySize[currentIndex] += parseInt(arr[i].split(' ')[0]);
                         }
