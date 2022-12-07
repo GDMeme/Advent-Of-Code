@@ -79,6 +79,17 @@ for (let i = 0; i < arr.length; i++) {
         }
     }
 }
+let outermostDirectorySize = 0
+for (let i = 0; i < directorySize.length; i++) {
+    outermostDirectorySize += directorySize[i];
+}
+i = 2;
+while (arr[i][0] !== '$') {
+    if (arr[i].slice(0, 3) !== 'dir') {
+        outermostDirectorySize += parseInt(arr[i].split(' ')[0]);
+    }
+    i++;
+}
 
 for (let i = 0; i < directorySize.length; i++) {
     let currentDirectory = directoryPath[i]; 
@@ -104,11 +115,14 @@ for (let i = 0; i < directorySize.length; i++) {
         }
     }
 }
-let sum = 0;
+
+let mustFreeUp = outermostDirectorySize - 40000000;
+currentWinner = Number.MAX_SAFE_INTEGER;
 for (let i = 0; i < directorySize.length; i++) {
-    if (directorySize[i] <= 100000) {
-        sum += directorySize[i];
+    if (directorySize[i] >= mustFreeUp) {
+        if (directorySize[i] <= currentWinner) {
+            currentWinner = directorySize[i];
+        }
     }
 }
-
-console.log('sum is:', sum);
+console.log('current winner:', currentWinner);
