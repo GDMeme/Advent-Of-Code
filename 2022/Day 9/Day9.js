@@ -100,9 +100,7 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
                 headY = 0;
                 tailY += 1; // shift everything down
             }
-            if (isTouching(headX, headY, tailX, tailY)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX, tailY)) { // move tail
                 let temp = moveTail(headX, headY, tailX, tailY); // will return 'x y' where x is new tailX and y is new tailY
                 tailX = parseInt(temp.split(' ')[0]);
                 tailY = parseInt(temp.split(' ')[1]);
@@ -119,9 +117,7 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
                 headX = 0;
                 tailX += 1; // shift everything right
             }
-            if (isTouching(headX, headY, tailX, tailY)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX, tailY)) { // move tail
                 let temp = moveTail(headX, headY, tailX, tailY); // will return 'x y' where x is new tailX and y is new tailY
                 tailX = parseInt(temp.split(' ')[0]);
                 tailY = parseInt(temp.split(' ')[1]);
@@ -131,9 +127,7 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
     } else if (arr[i].split(' ')[0] === 'R') { // right
         for (let j = 0; j < parseInt(arr[i].split(' ')[1]); j++) {
             headX += 1;
-            if (isTouching(headX, headY, tailX, tailY)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX, tailY)) { // move tail
                 let temp = moveTail(headX, headY, tailX, tailY); // will return 'x y' where x is new tailX and y is new tailY
                 tailX = parseInt(temp.split(' ')[0]);
                 tailY = parseInt(temp.split(' ')[1]);
@@ -146,18 +140,13 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
             if (headY === arrVisited.length) {
                 arrVisited.push([]);
             }
-            if (isTouching(headX, headY, tailX, tailY)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX, tailY)) { // move tail
                 let temp = moveTail(headX, headY, tailX, tailY); // will return 'x y' where x is new tailX and y is new tailY
                 tailX = parseInt(temp.split(' ')[0]);
                 tailY = parseInt(temp.split(' ')[1]);
                 arrVisited[tailY][tailX] = true;
             }
         }
-    }
-    if (i === 10) {
-        break;
     }
 }
 let counter = 0;

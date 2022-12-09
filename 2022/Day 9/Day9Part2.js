@@ -64,7 +64,7 @@ function moveTail (headX1, headY1, tailX, tailY) { // will only get called if no
             } else {
                 return `${headX1 + 1} ${headY1}`
             }
-        } else if (headY1 === tailY - 2 || headY1 === tailY + 2) { // specific to part 2 only
+        } else if (headY1 === tailY - 2 || headY1 === tailY + 2) { // specific to part 2 only, "head" could end up 2 squares away in both directions
             return newTailPosition(headX1, headY1, tailX, tailY);
         }
             else {
@@ -81,7 +81,7 @@ function moveTail (headX1, headY1, tailX, tailY) { // will only get called if no
             } else {
                 return `${headX1} ${headY1 + 1}`
             }
-        }  else if (headX1 === tailX - 2 || headX1 === tailX + 2) { // specific to part 2 only
+        }  else if (headX1 === tailX - 2 || headX1 === tailX + 2) { // specific to part 2 only, "head" could end up 2 squares away in both directions
             return newTailPosition(headX1, headY1, tailX, tailY);
         } else {
             throw new Error('how??3')
@@ -176,9 +176,7 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
                 tailY8 += 1;
                 tailY9 += 1;
             }
-            if (isTouching(headX, headY, tailX1, tailY1)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX1, tailY1)) { // move tail
                 moveAllTails();  
                 arrVisited[tailY9][tailX9] = true;
             }
@@ -201,9 +199,7 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
                 tailX8 += 1;
                 tailX9 += 1;
             }
-            if (isTouching(headX, headY, tailX1, tailY1)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX1, tailY1)) { // move tail
                 moveAllTails();
                 arrVisited[tailY9][tailX9] = true;
             }
@@ -211,9 +207,7 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
     } else if (arr[i].split(' ')[0] === 'R') { // right
         for (let j = 0; j < parseInt(arr[i].split(' ')[1]); j++) {
             headX += 1;
-            if (isTouching(headX, headY, tailX1, tailY1)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX1, tailY1)) { // move tail
                 moveAllTails();
                 arrVisited[tailY9][tailX9] = true;
             }
@@ -224,9 +218,7 @@ for (let i = 0; i < arr.length; i++) { // check if going out of bounds
             if (headY === arrVisited.length) {
                 arrVisited.push([]);
             }
-            if (isTouching(headX, headY, tailX1, tailY1)) {
-                continue;
-            } else { // move tail
+            if (!isTouching(headX, headY, tailX1, tailY1)) { // move tail
                 moveAllTails();
                 arrVisited[tailY9][tailX9] = true;
             }
