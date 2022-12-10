@@ -23,13 +23,12 @@ let currentCycle = 0;
 let registerValue = 1;
 let signalStrength = 0;
 for (let i = 0; i < arr.length; i++) {
-    if (arr[i].split(' ')[0] === 'addx') {
+    const [cmd, val] = arr[i].split(' ');
+    if (cmd === 'addx') {
         checkCheckpoint(true);
-        registerValue += parseInt(arr[i].split(' ')[1]);
-        continue;
+        registerValue += parseInt(val);
     } else { // noop
         checkCheckpoint(false);
     }
-
 }
 console.log('Signal strength is:', signalStrength);

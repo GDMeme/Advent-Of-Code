@@ -9,9 +9,9 @@ function syncReadFile(filename) {
 }
 
 function draw (repeat) {
-    index = Math.floor(currentCycle/40);
-    horizontalPosition = currentCycle % 40;
-    if (spritePosition.includes(horizontalPosition)) {
+    let index = Math.floor(currentCycle/40);
+    let horizontalPosition = currentCycle % 40;
+    if (Math.abs(registerValue - horizontalPosition) <= 1) {
         image[index] += '#';
     } else {
         image[index] += '.';
@@ -26,12 +26,11 @@ let arr = syncReadFile('./input.txt');
 let currentCycle = 0;
 let registerValue = 1;
 let image = [[], [], [], [], [], []];
-let spritePosition = [0, 1, 2];
 for (let i = 0; i < arr.length; i++) { // draw the pixel in CRT (compare to current sprite), move register (if applicable), move sprite
-    if (arr[i].split(' ')[0] === 'addx') {
+    const [cmd, val] = arr[i].split(' ');
+    if (cmd === 'addx') {
         draw(true);
-        registerValue += parseInt(arr[i].split(' ')[1]);
-        spritePosition = [registerValue - 1, registerValue, registerValue + 1];
+        registerValue += parseInt(val);
     } else { // noop
         draw(false);
     }
