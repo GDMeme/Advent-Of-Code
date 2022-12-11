@@ -47,7 +47,6 @@ for (let i = 0; i < 20; i++) { // 20 rounds
                 let currentValue = worryLevel[j][k];
                 currentValue += 7;
                 currentValue = Math.floor(currentValue / 3);
-                Math.floor(currentValue);
                 if (currentValue % 19 === 0) {
                     worryLevel[2].push(currentValue);
                 } else {
@@ -58,7 +57,6 @@ for (let i = 0; i < 20; i++) { // 20 rounds
                 let currentValue = worryLevel[j][k];
                 currentValue *= 3;
                 currentValue = Math.floor(currentValue / 3);
-                Math.floor(currentValue);
                 if (currentValue % 5 === 0) {
                     worryLevel[5].push(currentValue);
                 } else {
