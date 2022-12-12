@@ -1,5 +1,4 @@
 const {readFileSync, promises: fsPromises} = require('fs');
-const { multiply } = require('mathjs');
 
 function syncReadFile(filename) {
   const contents = readFileSync(filename, 'utf-8');
@@ -9,209 +8,211 @@ function syncReadFile(filename) {
   return arr;
 }
 
-function divisible(value, divisor) { // string, int
-    if (divisor === 13) {
-        // multiply the last digit by 4
-        // add it to the rest of the number
-        // check if divisible by 13 (when length <= 2)
-        while (value.length > 2) {
-            let temp = parseInt(value[value.length - 1]) * 4;
-            value = add(value.slice(0, -1), temp);
-        }
-        return (parseInt(value) % 13 === 0);
-    } else if (divisor === 19) {
-        // add 2 times the last digit to the remaining number until length <= 10
-        // if result divisible by 19, original number is also divisible by 19
-        while (value.length > 2) {
-            let temp = parseInt(value[value.length - 1] * 2);
-            value = add(value.slice(0, -1), temp);
-        }
-        return (parseInt(value) % 19 === 0);
-    } else if (divisor === 5) {
-        return (value[value.length - 1] === '5' || value[value.length - 1] === '0');
-    } else if (divisor === 2) {
-        let temp = value[value.length - 1];
-        return (temp === '0' || temp === '2' || temp === '4' || temp === '6' || temp === '8');
-    } else if (divisor === 17) {
-        // Multiply the number in the unit’s place by 12, and add to the rest. 
-        // If it is divisible by 17 then the original number is divisible by 17.
-        while (value.length > 2) {
-            let temp = parseInt(value[value.length - 1]);
-            for (let i = 0; i < 12; i++) {
-                value = add(value.slice(0, -1), temp);
-            }
-        }
-        return (parseInt(value) % 17 === 0);
-    } else if (divisor === 11) {
-        // take the alternating sum of the digits in the number, read from left to right.
-        // if that is divisible by 11, so is the original number.
-        let newValue = 0;
-        for (let i = 0; i < value.length; i++) {
-            if (i % 2 === 0) { // i is even
-                newValue -= parseInt(value[i]);
-            } else {
-                newValue += parseInt(value[i]);
-            }
-        }
-        return (newValue % 11 === 0);
-        // 7, 3
-    } else if (divisor === 7) {
-        // check character mod 7
-        // remainder * 10 + next character
-        // this is new character (check mod 7)
-        // character is 0 by end means divisible by 7
-        let remainder = 0;
-        for (let i = 0; i < value.length; i++) {
-            let temp = remainder * 10 + parseInt(value[i]);
-            remainder = temp % 7;
-        }
-        return (remainder === 0);
-    } else { // check divisibility for 3
-        // if sum of digits is divisible by 3, so is original number
-        let sum = 0;
-        for (let i = 0; i < value.length; i++) {
-            sum += value[i];
-        }
-        return (sum % 3 === 0);
-    }
-}
+// each of these have length 36
 
-function add(value, add) { // string, int
-    let temp = (parseInt(value[value.length - 1]) + add).toString();
-    let carry = 0;
-    returnValue = '';
-    let notFirst = true;
-    for (let i = value.length - 1; i >= 0; i--) { 
-        if (!notFirst) {
-            temp = (parseInt(value[i]) + parseInt(carry)).toString();
-        }
-        notFirst = false;
-        if (temp.length === 2) { // will never be a 3 digit number
-            carry = temp[0];
-            let newTemp = temp[1];
-            returnValue = newTemp + returnValue;
-            if (i === 0) {
-                return (carry + returnValue);
-            }
-        } else { // no carry
-            returnValue = temp + returnValue;
-            for (let j = i - 1; j >= 0; j--) {
-                returnValue = value[j] + returnValue;
-            }
-            break;
-        }
-    }
-    return returnValue;
-}
+let monkey0Array = []; // multiply by 7, check divisible by 13
+let monkey1Array = [];
+let monkey2Array = [];
+let monkey3Array = [];
+let monkey4Array = [];
+let monkey5Array = [];
+let monkey6Array = [];
+let monkey7Array = [];
 
 function giveMonkeyStartingItems (index, monkeyNumber) {
-    worryLevel[monkeyNumber] = arr[index].split(' ').slice(4);
-    for (let j = 0; j < worryLevel[monkeyNumber].length; j++) { // remove the trailing comma
-        if (worryLevel[monkeyNumber][j][2] === ',') { // only 2 digit numbers
-            worryLevel[monkeyNumber][j] = worryLevel[monkeyNumber][j].slice(0, -1); // keep it as a string
+    let temp = arr[index].split(' ').slice(4);
+    for (let j = 0; j < temp.length; j++) { // remove the trailing comma
+        if (temp[j][2] === ',') { // only 2 digit numbers
+            monkey0Array.push(parseInt(temp[j].slice(0, -1)));
+            monkey1Array.push(parseInt(temp[j].slice(0, -1)));
+            monkey2Array.push(parseInt(temp[j].slice(0, -1)));
+            monkey3Array.push(parseInt(temp[j].slice(0, -1)));
+            monkey4Array.push(parseInt(temp[j].slice(0, -1)));
+            monkey5Array.push(parseInt(temp[j].slice(0, -1)));
+            monkey6Array.push(parseInt(temp[j].slice(0, -1)));
+            monkey7Array.push(parseInt(temp[j].slice(0, -1)));
+        } else {
+            monkey0Array.push(parseInt(temp[j]));
+            monkey1Array.push(parseInt(temp[j]));
+            monkey2Array.push(parseInt(temp[j]));
+            monkey3Array.push(parseInt(temp[j]));
+            monkey4Array.push(parseInt(temp[j]));
+            monkey5Array.push(parseInt(temp[j]));
+            monkey6Array.push(parseInt(temp[j]));
+            monkey7Array.push(parseInt(temp[j]));
         }
+        indexArray[monkeyNumber].push(itemCounter);
+        itemCounter++;
     }
 }
 
 let arr = syncReadFile('./input.txt');
-let worryLevel = [[], [], [], [] ,[] ,[], [], []];
+let indexArray = [[], [], [], [] ,[] ,[], [], []];
 let counter = 0;
+let itemCounter = 0;
 for (let i = 0; i < arr.length; i++) { // give starting items to monkeys
     if (arr[i][2] === 'S') {
         giveMonkeyStartingItems(i, counter);
         counter++;
     }
 }
-// store the massive number as a string
-// multiply/add to the number as necessary
-// perform divisibility rules on the number
+// (A * B) mod C = (A mod C * B mod C) mod C
+// (currentValue * 7) mod 13
 
-// TODO: multiply function
+// loop to see how many items each monkey has (stored in index)
+// for each item (just store the index), perform the addition/multiplication by updating the values in monkey0Array and monkey1Array, etc.
+// push the item (index) to the corresponding location, checking whether it is divisible (value is 0 in monkey0Array or monkey1Array, etc. depending on who has the item)
 
 inspectCounter = [0, 0, 0, 0, 0, 0, 0, 0];
 for (let i = 0; i < 10000; i++) { // 10000 rounds
     for (let j = 0; j < 8; j++) { // 8 monkeys
-        const numberOfItems = worryLevel[j].length;
+        const numberOfItems = indexArray[j].length;
         for (let k = 0; k < numberOfItems; k++) { // each monkey's item
-            if (j === 0) { // monkey 0
-                let currentValue = worryLevel[j][k];
-                currentValue = multiply(currentValue, 7) // hardcoded for now
-                // parameters are string and multiplyValue, returns a string
-                if (divisible(currentValue, 13)) { // also hardcoded for now
-                    worryLevel[1].push(currentValue);
+            let itemNumber = indexArray[j][k];
+            if (j === 0) { // monkey 0, multiply by 7, check divisible by 13
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) * (7 % 13)) % 13;
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) * (7 % 19)) % 19;
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) * (7 % 5)) % 5;
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) * (7 % 2)) % 2;
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) * (7 % 17)) % 17;
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) * (7 % 11)) % 11;
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) * (7 % 7)) % 7;
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) * (7 % 3)) % 3;
+                if (monkey0Array[itemNumber] === 0) {
+                    indexArray[1].push(itemNumber);
                 } else {
-                    worryLevel[3].push(currentValue);
+                    indexArray[3].push(itemNumber);
                 }
                 inspectCounter[0]++;
-            } else if (j === 1) {
-                let currentValue = worryLevel[j][k];
-                currentValue = add(currentValue, 7);
-                if (divisible(currentValue, 19)) {
-                    worryLevel[2].push(currentValue);
+            } else if (j === 1) { // add 7, check divisible by 19
+                
+                // (a + b) mod c = a mod c + b mod c
+
+                // 7 + 4
+                // 7 mod 3 is 1, 4 mod 3 is 1
+                // so 11 mod 3 is 2
+
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) + (7 % 13));
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) + (7 % 19));
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) + (7 % 5));
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) + (7 % 2));
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) + (7 % 17));
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) + (7 % 11));
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) + (7 % 7));
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) + (7 % 3));
+                if (monkey1Array[itemNumber] % 19 === 0) {
+                    indexArray[2].push(itemNumber);
                 } else {
-                    worryLevel[7].push(currentValue);
+                    indexArray[7].push(itemNumber);
                 }
                 inspectCounter[1]++;
-            } else if (j === 2) {
-                let currentValue = worryLevel[j][k];
-                currentValue = multiply(currentValue, 3)
-                if (divisible(currentValue, 5)) {
-                    worryLevel[5].push(currentValue);
+            } else if (j === 2) { // multiply by 3, check divisible by 5
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) * (3 % 13)) % 13;
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) * (3 % 19)) % 19;
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) * (3 % 5)) % 5;
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) * (3 % 2)) % 2;
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) * (3 % 17)) % 17;
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) * (3 % 11)) % 11;
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) * (3 % 7)) % 7;
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) * (3 % 3)) % 3;
+                if (monkey2Array[itemNumber] === 0) {
+                    indexArray[5].push(itemNumber);
                 } else {
-                    worryLevel[7].push(currentValue);
+                    indexArray[7].push(itemNumber);
                 }
                 inspectCounter[2]++;
-            } else if (j === 3) {
-                let currentValue = worryLevel[j][k];
-                currentValue = add(currentValue, 3)
-                if (divisible(currentValue, 2)) {
-                    worryLevel[1].push(currentValue);
+            } else if (j === 3) { // add 3, check divisible by 2
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) + (3 % 13));
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) + (3 % 19));
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) + (3 % 5));
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) + (3 % 2));
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) + (3 % 17));
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) + (3 % 11));
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) + (3 % 7));
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) + (3 % 3));
+                if (monkey3Array[itemNumber] % 2 === 0) {
+                    indexArray[1].push(itemNumber);
                 } else {
-                    worryLevel[2].push(currentValue);
+                    indexArray[2].push(itemNumber);
                 }
                 inspectCounter[3]++;
-            } else if (j === 4) {
-                let currentValue = worryLevel[j][k];
-                currentValue = multiply(currentValue, currentValue) // check if second parameter is a string
-                if (divisible(currentValue, 17)) {
-                    worryLevel[6].push(currentValue);
+            } else if (j === 4) { // multiply by itself, check divisible by 17
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) * (monkey0Array[itemNumber] % 13)) % 13;
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) * (monkey1Array[itemNumber] % 19)) % 19;
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) * (monkey2Array[itemNumber] % 5)) % 5;
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) * (monkey3Array[itemNumber] % 2)) % 2;
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) * (monkey4Array[itemNumber] % 17)) % 17;
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) * (monkey5Array[itemNumber] % 11)) % 11;
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) * (monkey6Array[itemNumber] % 7)) % 7;
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) * (monkey7Array[itemNumber] % 3)) % 3;
+                if (monkey4Array[itemNumber] === 0) {
+                    indexArray[6].push(itemNumber);
                 } else {
-                    worryLevel[0].push(currentValue);
+                    indexArray[0].push(itemNumber);
                 }
                 inspectCounter[4]++;
-            } else if (j === 5) {
-                let currentValue = worryLevel[j][k];
-                currentValue = add(currentValue, 8);
-                if (divisible(currentValue, 11)) {
-                    worryLevel[4].push(currentValue);
+            } else if (j === 5) { // add 8, check divisible by 11
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) + (8 % 13));
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) + (8 % 19));
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) + (8 % 5));
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) + (8 % 2));
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) + (8 % 17));
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) + (8 % 11));
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) + (8 % 7));
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) + (8 % 3));
+                if (monkey5Array[itemNumber] % 11 === 0) {
+                    indexArray[4].push(itemNumber);
                 } else {
-                    worryLevel[6].push(currentValue);
+                    indexArray[6].push(itemNumber);
                 }
                 inspectCounter[5]++;
-            } else if (j === 6) {
-                let currentValue = worryLevel[j][k];
-                currentValue = add(currentValue, 2);
-                if (divisible(currentValue, 7)) {
-                    worryLevel[3].push(currentValue);
+            } else if (j === 6) { // add 2, check divisible by 7
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) + (2 % 13));
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) + (2 % 19));
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) + (2 % 5));
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) + (2 % 2));
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) + (2 % 17));
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) + (2 % 11));
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) + (2 % 7));
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) + (2 % 3));
+                if (monkey6Array[itemNumber] % 7 === 0) {
+                    indexArray[3].push(itemNumber);
                 } else {
-                    worryLevel[0].push(currentValue);
+                    indexArray[0].push(itemNumber);
                 }
                 inspectCounter[6]++;
-            } else if (j === 7) {
-                let currentValue = worryLevel[j][k];
-                currentValue = add(currentValue, 4);
-                if (divisible(currentValue, 3)) {
-                    worryLevel[4].push(currentValue);
+            } else if (j === 7) { // add 4, check divisible by 3
+                monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) + (4 % 13));
+                monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) + (4 % 19));
+                monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) + (4 % 5));
+                monkey3Array[itemNumber] = ((monkey3Array[itemNumber] % 2) + (4 % 2));
+                monkey4Array[itemNumber] = ((monkey4Array[itemNumber] % 17) + (4 % 17));
+                monkey5Array[itemNumber] = ((monkey5Array[itemNumber] % 11) + (4 % 11));
+                monkey6Array[itemNumber] = ((monkey6Array[itemNumber] % 7) + (4 % 7));
+                monkey7Array[itemNumber] = ((monkey7Array[itemNumber] % 3) + (4 % 3));
+                if (monkey7Array[itemNumber] % 3 === 0) {
+                    indexArray[4].push(itemNumber);
                 } else {
-                    worryLevel[5].push(currentValue);
+                    indexArray[5].push(itemNumber);
                 }
                 inspectCounter[7]++;
             }
-            if (k === numberOfItems - 1) {
-                worryLevel[j] = [];
+            if (k === (numberOfItems - 1)) {
+                indexArray[j] = [];
             }
         }
     }
+    // console.log(indexArray[0].length);
+    // console.log(indexArray[1].length);
+    // console.log(indexArray[2].length);
+    // console.log(indexArray[3].length);
+    // console.log(indexArray[4].length);
+    // console.log(indexArray[5].length);
+    // console.log(indexArray[6].length);
+    // console.log(indexArray[7].length);
+    // console.log('break');
+    // console.log(indexArray);
+    // console.log('real break');
 }
 // find max and secondMax in inspectCounter
 let max = 0;
@@ -226,8 +227,6 @@ for (let i = 0; i < inspectCounter.length; i++) {
         }
     }
 }
-console.log(worryLevel);
-console.log('break');
 console.log(inspectCounter);
 console.log(max);
 console.log(secondMax);
