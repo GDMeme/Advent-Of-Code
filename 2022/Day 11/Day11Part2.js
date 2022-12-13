@@ -85,13 +85,11 @@ for (let i = 0; i < 10000; i++) { // 10000 rounds
                 }
                 inspectCounter[0]++;
             } else if (j === 1) { // add 7, check divisible by 19
-                
                 // (a + b) mod c = a mod c + b mod c
 
                 // 7 + 4
                 // 7 mod 3 is 1, 4 mod 3 is 1
                 // so 11 mod 3 is 2
-
                 monkey0Array[itemNumber] = ((monkey0Array[itemNumber] % 13) + (7 % 13));
                 monkey1Array[itemNumber] = ((monkey1Array[itemNumber] % 19) + (7 % 19));
                 monkey2Array[itemNumber] = ((monkey2Array[itemNumber] % 5) + (7 % 5));
@@ -202,17 +200,6 @@ for (let i = 0; i < 10000; i++) { // 10000 rounds
             }
         }
     }
-    // console.log(indexArray[0].length);
-    // console.log(indexArray[1].length);
-    // console.log(indexArray[2].length);
-    // console.log(indexArray[3].length);
-    // console.log(indexArray[4].length);
-    // console.log(indexArray[5].length);
-    // console.log(indexArray[6].length);
-    // console.log(indexArray[7].length);
-    // console.log('break');
-    // console.log(indexArray);
-    // console.log('real break');
 }
 // find max and secondMax in inspectCounter
 let max = 0;
@@ -227,7 +214,4 @@ for (let i = 0; i < inspectCounter.length; i++) {
         }
     }
 }
-console.log(inspectCounter);
-console.log(max);
-console.log(secondMax);
 console.log(max * secondMax);
