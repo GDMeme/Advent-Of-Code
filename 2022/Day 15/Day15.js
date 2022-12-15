@@ -10,7 +10,7 @@ function syncReadFile(filename) {
 
 let arr = syncReadFile('./input.txt');
 let mySet = new Set();    
-let checkYValue = 2000000
+let checkYValue = 2000000;
 for (let i = 0; i < arr.length; i++) {
     let splitInput = arr[i].split(' ');
     let currentSensorX = parseInt(splitInput[2].slice(2));
