@@ -10,12 +10,73 @@ function syncReadFile(filename) {
 
 let arr = syncReadFile('./input.txt');
 
-let breakBoolean = false;
-let mySet = new Set(); 
-let checkYValue = 0;
+var startTime = performance.now()
+
 let maxSearch = 4000000;
-while (breakBoolean === false) {
+
+// get outer perimeter of all the scanners, check the value
+
+// loop over all scanners and beacons, see if any of them cover that spot
+
+// if none of them cover, break
+
+let found = false;
+
+for (let i = 0; i < arr.length; i++) {
+    console.log('i is:', i);
+    let splitInput = arr[i].split(' ');
+    let currentSensorX = parseInt(splitInput[2].slice(2));
+    let currentSensorY = parseInt(splitInput[3].slice(2));
+    let closestBeaconX = parseInt(splitInput[8].slice(2));
+    let closestBeaconY = parseInt(splitInput[9].slice(2));
+
+    let radius = Math.abs(currentSensorX - closestBeaconX) + Math.abs(currentSensorY - closestBeaconY);
+    for (let j = 0; j < radius; j++) { // go bottom left
+        if (!checkSpot(currentSensorX + radius + 1 - j, currentSensorY + j, i)) {
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        break;
+    }
+    for (let j = 0; j < radius; j++) { // go top left
+        if (!checkSpot(currentSensorX - j, currentSensorY + radius + 1 - j, i)) {
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        break;
+    }
+    for (let j = 0; j < radius; j++) { // go top right
+        if (!checkSpot(currentSensorX - radius - 1 + j, currentSensorY - j, i)) {
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        break;
+    }
+    for (let j = 0; j < radius; j++) { // go bottom right
+        if (!checkSpot(currentSensorX + j, currentSensorY - radius - 1 + j, i)) {
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        break;
+    }
+}
+
+function checkSpot (xValue, yValue, index) {
+    if (!(xValue >= 0 && xValue <= maxSearch && yValue >= 0 && yValue <= maxSearch)) {
+        return true;
+    }
     for (let i = 0; i < arr.length; i++) {
+        if (i === index){
+            continue;
+        }
         let splitInput = arr[i].split(' ');
         let currentSensorX = parseInt(splitInput[2].slice(2));
         let currentSensorY = parseInt(splitInput[3].slice(2));
@@ -23,35 +84,26 @@ while (breakBoolean === false) {
         let closestBeaconY = parseInt(splitInput[9].slice(2));
 
         let distance = Math.abs(currentSensorX - closestBeaconX) + Math.abs(currentSensorY - closestBeaconY);
-        let stepsToReach = Math.abs(checkYValue - currentSensorY);
-        for (let i = 0; i < distance - stepsToReach + 1; i++) {
-            if ((currentSensorX + i) >= 0 && ((currentSensorX + i) <= maxSearch)) {
-                mySet.add(currentSensorX + i);
-            }
-            if ((currentSensorX - i) >= 0 && ((currentSensorX - i) <= maxSearch)) {
-                mySet.add(currentSensorX - i);
-            }
+        let stepsToReach = Math.abs(yValue - currentSensorY);
+        let oneWayHorizontalLength = distance - stepsToReach;
+        if ((xValue >= currentSensorX - oneWayHorizontalLength) && (xValue <= currentSensorX + oneWayHorizontalLength)) {
+            return true;
         }
     }
-    if (checkYValue > maxSearch) {
-        break;
-    }
-    if (mySet.size !== maxSearch + 1) {
-        for (let i = 0; i < maxSearch + 1; i++) {
-            if (!mySet.has(i)) {
-                console.log('missing x value is:', i);
-                console.log('missing y value is:', checkYValue);
-                const solution = (4000000 * i) + checkYValue;
-                console.log('ans is:', solution);
-                breakBoolean = true;
-                break;
-            }
+    for (let i = 0; i < arr.length; i++) {
+        let splitInput = arr[i].split(' ');
+        let currentSensorX = parseInt(splitInput[2].slice(2));
+        let currentSensorY = parseInt(splitInput[3].slice(2));
+        let closestBeaconX = parseInt(splitInput[8].slice(2));
+        let closestBeaconY = parseInt(splitInput[9].slice(2));
+        if (((closestBeaconY === yValue) && (closestBeaconX === xValue)) || ((currentSensorY === yValue) && (currentSensorX === xValue))) {
+            console.log('hi');
+            return true;
         }
     }
-    checkYValue++;
-    mySet.clear();
-
-    // if (checkYValue % 50000 ===/who
-    le.log('i am at', checkYValue);
-    // }
-}
+    console.log('x is:', xValue, 'y is:', yValue);
+    console.log('solution is:', 4000000 * xValue + yValue);
+    var endTime = performance.now()
+    console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+    return false;
+} 
