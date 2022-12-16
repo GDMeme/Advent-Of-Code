@@ -90,17 +90,6 @@ function checkSpot (xValue, yValue, index) {
             return true;
         }
     }
-    for (let i = 0; i < arr.length; i++) {
-        let splitInput = arr[i].split(' ');
-        let currentSensorX = parseInt(splitInput[2].slice(2));
-        let currentSensorY = parseInt(splitInput[3].slice(2));
-        let closestBeaconX = parseInt(splitInput[8].slice(2));
-        let closestBeaconY = parseInt(splitInput[9].slice(2));
-        if (((closestBeaconY === yValue) && (closestBeaconX === xValue)) || ((currentSensorY === yValue) && (currentSensorX === xValue))) {
-            console.log('hi');
-            return true;
-        }
-    }
     console.log('x is:', xValue, 'y is:', yValue);
     console.log('solution is:', 4000000 * xValue + yValue);
     var endTime = performance.now()
