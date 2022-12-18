@@ -36,6 +36,9 @@ let arr = syncReadFile('./input.txt');
 
 // if hit something, increase height of corresponding columns
 
+
+// DIDN'T ACCOUNT FOR EXISTING ROCKS, WIND CAN'T PUSH NEW ROCK THROUGH OLD ROCKS
+
 function doWindPush(windCounter, rockArray) {
     let currentWindDirection = arr[0][windCounter];
     console.log('currentWindDirection', currentWindDirection);
