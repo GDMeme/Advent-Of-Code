@@ -128,7 +128,9 @@ function expandPocket (coordinate, visited) { // DFS to fill up entire pocket
         if (Math.max(...newCoordinate) > 30 || Math.min(...newCoordinate) < -2) {
             return undefined; // not a real pocket
         }
-        return expandPocket(newCoordinate, visited);
+        if (expandPocket(newCoordinate, visited) === undefined) {
+            return undefined;
+        }
     }
     return visited;
 }

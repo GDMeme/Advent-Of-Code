@@ -11,24 +11,18 @@ function syncReadFile(filename) {
 let arr = syncReadFile('./input.txt');
 let sidesNotConnectedCounter = 0;
 
-for (let i = 0; i < arr.length; i++) {
-    let [currentX, currentY, currentZ] = arr[i].split(',');
-    let sidesNotConnected = 6;
-    for (let j = 0; j < arr.length; j++) {
-        if (j === i) {
-            continue;
-        } else {
-            let [nextX, nextY, nextZ] = arr[j].split(',');
-            if (Math.abs(currentX - nextX) === 1 && currentY === nextY && currentZ === nextZ) {
-                sidesNotConnected--;
-            } else if (currentX === nextX && Math.abs(currentY - nextY) === 1 && currentZ === nextZ) {
-                sidesNotConnected--;
-            } else if (currentX === nextX && currentY === nextY && Math.abs(currentZ - nextZ) === 1) {
+    // part 1 code
+    for (let i = 0; i < arr.length; i++) { // do part 1 on the regular input
+        let [currentX, currentY, currentZ] = arr[i].split(',').map(number => parseInt(number));
+        let sidesNotConnected = 6;
+        let directionArray = [[1,0,0], [-1,0,0], [0,1,0], [0,-1,0], [0,0,1], [0,0,-1]];
+        for (const [x,y,z] of directionArray) {
+            const newCoordinate = [currentX + x, currentY + y, currentZ + z];
+            if (arr.includes(newCoordinate.join())) {
                 sidesNotConnected--;
             }
         }
+        sidesNotConnectedCounter += sidesNotConnected;
     }
-    sidesNotConnectedCounter += sidesNotConnected;
-}
 
 console.log(sidesNotConnectedCounter);
