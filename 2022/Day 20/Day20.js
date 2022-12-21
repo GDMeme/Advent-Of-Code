@@ -82,7 +82,7 @@ while (visited.size !== arrLength) {
 }
 // console.log('final arr is:', arr);
 
-while (arr[0].value !== 0) {
+while (arr[0].value !== 0) { // put element with value of 0 at the start of the array
     arr.push(arr[0]);
     arr.shift();
 }
