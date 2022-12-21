@@ -8,6 +8,9 @@ function syncReadFile(filename) {
   return arr;
 }
 let decryptionKey = 811589153;
+
+const t0 = performance.now();
+
 let arr = syncReadFile('./input.txt').map(number => parseInt(number) * decryptionKey);
 
 arr = arr.map((element, index) => ({key: index, value: element}));
@@ -58,9 +61,11 @@ while (loops < 10) {
                         moveValue(endIndex - 1, currentIndex);
                     } else { // goes out of bounds
                         let tempValue = currentValue; // so I don't modify currentValue
-                        while (tempValue < 0) {
-                            tempValue += arrLength - 1;
-                        }
+                        // while (tempValue < 0) {
+                        //     tempValue += arrLength - 1;
+                        // }
+                        tempValue = tempValue % (arrLength - 1);
+                        tempValue += arrLength - 1;
                         moveValue(tempValue + currentIndex, currentIndex); // tempValue is endIndex
                     }
                 }
@@ -82,3 +87,6 @@ console.log('2000:', arr[2000].value);
 console.log('3000:', arr[3000].value);
 
 console.log('ans:', arr[1000].value + arr[2000].value + arr[3000].value);
+
+const t1 = performance.now();
+console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
