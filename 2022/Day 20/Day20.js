@@ -53,7 +53,7 @@ while (visited.size !== arrLength) {
         if (moddedValue === 0) {
             currentIndex++;
             continue;
-        } // TODO: IF DOESN'T WORK, CHECK moddedValue LOGIC
+        }
         if (currentIndex + moddedValue >= arrLength) { // currentValue must be positive in this case
             let moveItBack = arrLength - 1 - moddedValue; // number of indexes to move it back
             let endIndex = currentIndex - moveItBack;
@@ -66,8 +66,8 @@ while (visited.size !== arrLength) {
                 if (currentIndex + moddedValue === 0) {
                     moveValue(arr.length - 1, currentIndex);
                 }
-                else if (currentIndex + currentValue > 0) { // check if it doesn't go out of bounds (since currentValue is negative)
-                    let endIndex = currentIndex + moddedValue; // TODO: test if this works
+                else if (currentIndex + moddedValue > 0) { // check if it doesn't go out of bounds (since currentValue is negative)
+                    let endIndex = currentIndex + moddedValue;
                     moveValue(endIndex - 1, currentIndex);
                 } else { // goes out of bounds
                     let tempValue = currentValue; // so I don't modify currentValue
@@ -80,55 +80,18 @@ while (visited.size !== arrLength) {
         }
     }
 }
-console.log('final arr is:', arr);
+// console.log('final arr is:', arr);
 
-let indexOfZero = -1;
-
-for (let i = 0; i < arr.length; i++) {
-    if (arr[i].value === 0) {
-        indexOfZero = i;
-        break;
-    }
+while (arr[0].value !== 0) {
+    arr.push(arr[0]);
+    arr.shift();
 }
 
-// calculate 1000th number after 0
-let thousandthNumber = Number.MAX_SAFE_INTEGER;
-if (indexOfZero + 1000 <= arr.length - 1) {
-    thousandthNumber = arr[indexOfZero + 1000].value;
-} else { // goes out of bounds, will only wrap around once BUT NOT FOR EXAMPLE :(
-    let newIndex = indexOfZero - (arr.length - (1000 % arr.length));
-    if (newIndex < 0) {
-        newIndex += arr.length;
-    }
-    thousandthNumber = arr[newIndex].value;
-}
-console.log(thousandthNumber);
+console.log('1000:', arr[1000].value);
+console.log('2000:', arr[2000].value);
+console.log('3000:', arr[3000].value);
 
-let twoThousandthNumber = Number.MAX_SAFE_INTEGER;
-if (indexOfZero + 2000 <= arr.length - 1) {
-    twoThousandthNumber = arr[indexOfZero + 2000].value;
-} else { // goes out of bounds, will only wrap around once BUT NOT FOR EXAMPLE :(
-    let newIndex = indexOfZero - (arr.length - (2000 % arr.length));
-    if (newIndex < 0) {
-        newIndex += arr.length;
-    }
-    twoThousandthNumber = arr[newIndex].value;
-}
-console.log(twoThousandthNumber);
-
-let threeThousandthNumber = Number.MAX_SAFE_INTEGER;
-if (indexOfZero + 3000 <= arr.length - 1) {
-    threeThousandthNumber = arr[indexOfZero + 3000].value;
-} else { // goes out of bounds, will only wrap around once BUT NOT FOR EXAMPLE :(
-    let newIndex = indexOfZero - (arr.length - (3000 % arr.length));
-    if (newIndex < 0) {
-        newIndex += arr.length;
-    }
-    threeThousandthNumber = arr[newIndex].value;
-}
-console.log(threeThousandthNumber);
-
-console.log('ans:', thousandthNumber + twoThousandthNumber + threeThousandthNumber);
+console.log('ans:', arr[1000].value + arr[2000].value + arr[3000].value);
 
 // assign each element in arr a specific key
 
