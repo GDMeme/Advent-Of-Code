@@ -109,7 +109,7 @@ for (let i = 0; i < instructionsArr.length; i++) {
                     currentY += 1;
                     continue;
                 } else if (solidWalls.has(currentX + ',' + (currentY + 1))) {
-                    break; // don't increment currentX
+                    break; // don't increment currentY
                 } else { // out of bounds
                     if (currentX < 51) {
                         if (solidWalls.has((currentX + ',101'))) {
@@ -130,7 +130,7 @@ for (let i = 0; i < instructionsArr.length; i++) {
                     currentX -= 1;
                     continue;
                 } else if (solidWalls.has((currentX - 1) + ',' + currentY)) {
-                    break; // don't increment currentX
+                    break; // don't decrement currentX
                 } else { // out of bounds
                     if (currentY < 51) {
                         if (solidWalls.has(('150' + currentY))) {
@@ -157,7 +157,7 @@ for (let i = 0; i < instructionsArr.length; i++) {
                     currentY -= 1;
                     continue;
                 } else if (solidWalls.has(currentX + ',' + (currentY - 1))) {
-                    break; // don't increment currentX
+                    break; // don't decrement currentY
                 } else { // out of bounds
                     if (currentX < 51) {
                         if (solidWalls.has((currentX + ',200'))) {
