@@ -133,7 +133,7 @@ for (let i = 0; i < instructionsArr.length; i++) {
                     break; // don't decrement currentX
                 } else { // out of bounds
                     if (currentY < 51) {
-                        if (solidWalls.has(('150' + currentY))) {
+                        if (solidWalls.has(('150,' + currentY))) {
                             break; // don't change currentX
                         }
                         currentX = 150;
