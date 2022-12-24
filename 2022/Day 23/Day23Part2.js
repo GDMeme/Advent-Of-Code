@@ -24,11 +24,11 @@ for (let i = 0; i < arr.length; i++) { // columns and rows start at 0
 const t0 = performance.now();
 
 let counter = 0;
-
+let roundCounter = 0;
 let newElfPosition = [];
 
 const directionArray = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]];
-for (let i = 0; i < 10; i++) { // 10 rounds
+while(true) { // some number of rounds
     for (const item of currentElfPosition) {
         // check 8 directions
         let [currentElfX, currentElfY] = item.newValue.split(',').map(coordinate => parseInt(coordinate));
@@ -144,34 +144,28 @@ for (let i = 0; i < 10; i++) { // 10 rounds
     }
     tempArray.length = 0;
     currentElfPosition = cloneDeep(realNewElfPosition);
-    newElfPosition.length = 0;
     counter++;
     counter = counter % 4;
+    roundCounter++;
+    if (roundCounter % 100 === 0) {
+        console.log('round is', roundCounter);
+    }
+    let notEqual = false;
+    for (let j = 0; j < newElfPosition.length; j++) {
+        if (newElfPosition[j].oldValue === newElfPosition[j].newValue) {
+            continue;
+        } else {
+            notEqual = true;
+            break;
+        }
+    }
+    if (!notEqual) {
+        break;
+    }
+    newElfPosition.length = 0;
 } 
-let maxX = Number.MIN_SAFE_INTEGER;
-let maxY = Number.MIN_SAFE_INTEGER;
-let minX = Number.MAX_SAFE_INTEGER;
-let minY = Number.MAX_SAFE_INTEGER;
-for (const item of currentElfPosition) {
-    let [currentX, currentY] = item.newValue.split(',').map(number => parseInt(number));
-    if (currentX > maxX) {
-        maxX = currentX;
-    }
-    if (currentX < minX) {
-        minX = currentX;
-    }
-    if (currentY > maxY) {
-        maxY = currentY;
-    }
-    if (currentY < minY) {
-        minY = currentY;
-    }
-}
 
-const width = maxX - minX + 1;
-const height = maxY - minY + 1;
-
-console.log('ans:', (width * height) - currentElfPosition.length);
+console.log('ans:', roundCounter);
 
 const t1 = performance.now();
 
