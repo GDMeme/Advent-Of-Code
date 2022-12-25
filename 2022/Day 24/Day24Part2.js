@@ -46,236 +46,96 @@ const directionArray = [[0, 1], [1, 0], [0, -1], [-1, 0], [0, 0]];
 
 let minuteCounter = 0;
 
-while (true) {
-    for (const wind of currentWindSet) {
-        const [currentX, currentY] = wind.coordinate.split(',').map(number => parseInt(number));
-        const { direction } = wind;
-        if (direction === 'L') {
-            if (currentX === 1) {
-                newWindSet.add({coordinate: (trueWidth - 2) + ',' + currentY, direction});
-                noDirectionWindSet.add((trueWidth - 2) + ',' + currentY);
-            } else {
-                newWindSet.add({coordinate: (currentX - 1) + ',' + currentY, direction});
-                noDirectionWindSet.add((currentX - 1) + ',' + currentY);
-            }
-        } else if (direction === 'R') {
-            if (currentX === trueWidth - 2) {
-                newWindSet.add({coordinate: 1 + ',' + currentY, direction});
-                noDirectionWindSet.add(1 + ',' + currentY);
-            } else {
-                newWindSet.add({coordinate: (currentX + 1) + ',' + currentY, direction});
-                noDirectionWindSet.add((currentX + 1) + ',' + currentY);
-            }
-        } else if (direction === 'U') {
-            if (currentY === 1) {
-                newWindSet.add({coordinate: currentX + ',' + (trueHeight - 2), direction});
-                noDirectionWindSet.add(currentX + ',' + (trueHeight - 2));
-            } else {
-                newWindSet.add({coordinate: currentX + ',' + (currentY - 1), direction});
-                noDirectionWindSet.add(currentX + ',' + (currentY - 1));
-            }
-        } else { // direction = 'D'
-            if (currentY === trueHeight - 2) {
-                newWindSet.add({coordinate: currentX + ',' + 1, direction});
-                noDirectionWindSet.add(currentX + ',' + 1);
-            } else {
-                newWindSet.add({coordinate: currentX + ',' + (currentY + 1), direction});
-                noDirectionWindSet.add(currentX + ',' + (currentY + 1));
-            }
-        }
-    }
-    for (const currentPosition of currentPositionSet) {
-        const [currentPositionX, currentPositionY] = currentPosition.split(',').map(number => parseInt(number));
-        for (const direction of directionArray) {
-            const [directionX, directionY] = direction;
-            const newCurrentPositionX = currentPositionX + directionX;
-            const newCurrentPositionY = currentPositionY + directionY;
-            if (newCurrentPositionX === 0 || newCurrentPositionX === trueWidth - 1) {
-                continue;
-            }
-            if (newCurrentPositionY === 0 && newCurrentPositionX !== 1) {
-                continue;
-            } 
-            if (newCurrentPositionY === trueHeight - 1 && newCurrentPositionX !== trueWidth - 2) {
-                continue;
-            }
-            if (!noDirectionWindSet.has(newCurrentPositionX + ',' + newCurrentPositionY)){
-                newCurrentPositionSet.add(newCurrentPositionX + ',' + newCurrentPositionY);
+function calculatePath(endGoal) {
+    while (true) {
+        for (const wind of currentWindSet) {
+            const [currentX, currentY] = wind.coordinate.split(',').map(number => parseInt(number));
+            const { direction } = wind;
+            if (direction === 'L') {
+                if (currentX === 1) {
+                    newWindSet.add({coordinate: (trueWidth - 2) + ',' + currentY, direction});
+                    noDirectionWindSet.add((trueWidth - 2) + ',' + currentY);
+                } else {
+                    newWindSet.add({coordinate: (currentX - 1) + ',' + currentY, direction});
+                    noDirectionWindSet.add((currentX - 1) + ',' + currentY);
+                }
+            } else if (direction === 'R') {
+                if (currentX === trueWidth - 2) {
+                    newWindSet.add({coordinate: 1 + ',' + currentY, direction});
+                    noDirectionWindSet.add(1 + ',' + currentY);
+                } else {
+                    newWindSet.add({coordinate: (currentX + 1) + ',' + currentY, direction});
+                    noDirectionWindSet.add((currentX + 1) + ',' + currentY);
+                }
+            } else if (direction === 'U') {
+                if (currentY === 1) {
+                    newWindSet.add({coordinate: currentX + ',' + (trueHeight - 2), direction});
+                    noDirectionWindSet.add(currentX + ',' + (trueHeight - 2));
+                } else {
+                    newWindSet.add({coordinate: currentX + ',' + (currentY - 1), direction});
+                    noDirectionWindSet.add(currentX + ',' + (currentY - 1));
+                }
+            } else { // direction = 'D'
+                if (currentY === trueHeight - 2) {
+                    newWindSet.add({coordinate: currentX + ',' + 1, direction});
+                    noDirectionWindSet.add(currentX + ',' + 1);
+                } else {
+                    newWindSet.add({coordinate: currentX + ',' + (currentY + 1), direction});
+                    noDirectionWindSet.add(currentX + ',' + (currentY + 1));
+                }
             }
         }
-    }
-    minuteCounter++;
-    if (newCurrentPositionSet.has((trueWidth - 2) + ',' + (trueHeight - 1))) {
+        for (const currentPosition of currentPositionSet) {
+            const [currentPositionX, currentPositionY] = currentPosition.split(',').map(number => parseInt(number));
+            for (const direction of directionArray) {
+                const [directionX, directionY] = direction;
+                const newCurrentPositionX = currentPositionX + directionX;
+                const newCurrentPositionY = currentPositionY + directionY;
+                if (newCurrentPositionX === 0 || newCurrentPositionX === trueWidth - 1) {
+                    continue;
+                }
+                if (newCurrentPositionY === 0 && newCurrentPositionX !== 1) {
+                    continue;
+                } 
+                if (newCurrentPositionY === trueHeight - 1 && newCurrentPositionX !== trueWidth - 2) {
+                    continue;
+                }
+                if (!noDirectionWindSet.has(newCurrentPositionX + ',' + newCurrentPositionY)){
+                    newCurrentPositionSet.add(newCurrentPositionX + ',' + newCurrentPositionY);
+                }
+            }
+        }
+        minuteCounter++;
+        if (newCurrentPositionSet.has(endGoal)) {
+            currentWindSet = cloneDeep(newWindSet);
+            currentPositionSet = cloneDeep(newCurrentPositionSet);
+            newWindSet.clear();
+            newCurrentPositionSet.clear();
+            noDirectionWindSet.clear();
+            break;
+        }
         currentWindSet = cloneDeep(newWindSet);
         currentPositionSet = cloneDeep(newCurrentPositionSet);
         newWindSet.clear();
         newCurrentPositionSet.clear();
         noDirectionWindSet.clear();
-        break;
     }
-    currentWindSet = cloneDeep(newWindSet);
-    currentPositionSet = cloneDeep(newCurrentPositionSet);
-    newWindSet.clear();
-    newCurrentPositionSet.clear();
-    noDirectionWindSet.clear();
 }
+
+calculatePath((trueWidth - 2) + ',' + (trueHeight - 1));
 console.log('first part', minuteCounter);
 
 currentPositionSet.clear();
 currentPositionSet.add((trueWidth - 2) + ',' + (trueHeight - 1));
 
-while (true) { // GOING BACK TO THE START
-    for (const wind of currentWindSet) {
-        const [currentX, currentY] = wind.coordinate.split(',').map(number => parseInt(number));
-        const { direction } = wind;
-        if (direction === 'L') {
-            if (currentX === 1) {
-                newWindSet.add({coordinate: (trueWidth - 2) + ',' + currentY, direction});
-                noDirectionWindSet.add((trueWidth - 2) + ',' + currentY);
-            } else {
-                newWindSet.add({coordinate: (currentX - 1) + ',' + currentY, direction});
-                noDirectionWindSet.add((currentX - 1) + ',' + currentY);
-            }
-        } else if (direction === 'R') {
-            if (currentX === trueWidth - 2) {
-                newWindSet.add({coordinate: 1 + ',' + currentY, direction});
-                noDirectionWindSet.add(1 + ',' + currentY);
-            } else {
-                newWindSet.add({coordinate: (currentX + 1) + ',' + currentY, direction});
-                noDirectionWindSet.add((currentX + 1) + ',' + currentY);
-            }
-        } else if (direction === 'U') {
-            if (currentY === 1) {
-                newWindSet.add({coordinate: currentX + ',' + (trueHeight - 2), direction});
-                noDirectionWindSet.add(currentX + ',' + (trueHeight - 2));
-            } else {
-                newWindSet.add({coordinate: currentX + ',' + (currentY - 1), direction});
-                noDirectionWindSet.add(currentX + ',' + (currentY - 1));
-            }
-        } else { // direction = 'D'
-            if (currentY === trueHeight - 2) {
-                newWindSet.add({coordinate: currentX + ',' + 1, direction});
-                noDirectionWindSet.add(currentX + ',' + 1);
-            } else {
-                newWindSet.add({coordinate: currentX + ',' + (currentY + 1), direction});
-                noDirectionWindSet.add(currentX + ',' + (currentY + 1));
-            }
-        }
-    }
-    for (const currentPosition of currentPositionSet) {
-        const [currentPositionX, currentPositionY] = currentPosition.split(',').map(number => parseInt(number));
-        for (const direction of directionArray) {
-            const [directionX, directionY] = direction;
-            const newCurrentPositionX = currentPositionX + directionX;
-            const newCurrentPositionY = currentPositionY + directionY;
-            if (newCurrentPositionX === 0 || newCurrentPositionX === trueWidth - 1) {
-                continue;
-            }
-            if (newCurrentPositionY === 0 && newCurrentPositionX !== 1) {
-                continue;
-            } 
-            if (newCurrentPositionY === trueHeight - 1 && newCurrentPositionX !== trueWidth - 2) {
-                continue;
-            }
-            if (!noDirectionWindSet.has(newCurrentPositionX + ',' + newCurrentPositionY)){
-                newCurrentPositionSet.add(newCurrentPositionX + ',' + newCurrentPositionY);
-            }
-        }
-    }
-    minuteCounter++;
-    if (newCurrentPositionSet.has('1,0')) {
-        currentWindSet = cloneDeep(newWindSet);
-        currentPositionSet = cloneDeep(newCurrentPositionSet);
-        newWindSet.clear();
-        newCurrentPositionSet.clear();
-        noDirectionWindSet.clear();
-        break;
-    }
-    currentWindSet = cloneDeep(newWindSet);
-    currentPositionSet = cloneDeep(newCurrentPositionSet);
-    newWindSet.clear();
-    newCurrentPositionSet.clear();
-    noDirectionWindSet.clear();
-}
-
+calculatePath('1,0');
 console.log('second part', minuteCounter);
 
 currentPositionSet.clear();
 currentPositionSet.add('1,0');
 
-while (true) { // GOING BACK TO THE END
-    for (const wind of currentWindSet) {
-        const [currentX, currentY] = wind.coordinate.split(',').map(number => parseInt(number));
-        const { direction } = wind;
-        if (direction === 'L') {
-            if (currentX === 1) {
-                newWindSet.add({coordinate: (trueWidth - 2) + ',' + currentY, direction});
-                noDirectionWindSet.add((trueWidth - 2) + ',' + currentY);
-            } else {
-                newWindSet.add({coordinate: (currentX - 1) + ',' + currentY, direction});
-                noDirectionWindSet.add((currentX - 1) + ',' + currentY);
-            }
-        } else if (direction === 'R') {
-            if (currentX === trueWidth - 2) {
-                newWindSet.add({coordinate: 1 + ',' + currentY, direction});
-                noDirectionWindSet.add(1 + ',' + currentY);
-            } else {
-                newWindSet.add({coordinate: (currentX + 1) + ',' + currentY, direction});
-                noDirectionWindSet.add((currentX + 1) + ',' + currentY);
-            }
-        } else if (direction === 'U') {
-            if (currentY === 1) {
-                newWindSet.add({coordinate: currentX + ',' + (trueHeight - 2), direction});
-                noDirectionWindSet.add(currentX + ',' + (trueHeight - 2));
-            } else {
-                newWindSet.add({coordinate: currentX + ',' + (currentY - 1), direction});
-                noDirectionWindSet.add(currentX + ',' + (currentY - 1));
-            }
-        } else { // direction = 'D'
-            if (currentY === trueHeight - 2) {
-                newWindSet.add({coordinate: currentX + ',' + 1, direction});
-                noDirectionWindSet.add(currentX + ',' + 1);
-            } else {
-                newWindSet.add({coordinate: currentX + ',' + (currentY + 1), direction});
-                noDirectionWindSet.add(currentX + ',' + (currentY + 1));
-            }
-        }
-    }
-    for (const currentPosition of currentPositionSet) {
-        const [currentPositionX, currentPositionY] = currentPosition.split(',').map(number => parseInt(number));
-        for (const direction of directionArray) {
-            const [directionX, directionY] = direction;
-            const newCurrentPositionX = currentPositionX + directionX;
-            const newCurrentPositionY = currentPositionY + directionY;
-            if (newCurrentPositionX === 0 || newCurrentPositionX === trueWidth - 1) {
-                continue;
-            }
-            if (newCurrentPositionY === 0 && newCurrentPositionX !== 1) {
-                continue;
-            } 
-            if (newCurrentPositionY === trueHeight - 1 && newCurrentPositionX !== trueWidth - 2) {
-                continue;
-            }
-            if (!noDirectionWindSet.has(newCurrentPositionX + ',' + newCurrentPositionY)){
-                newCurrentPositionSet.add(newCurrentPositionX + ',' + newCurrentPositionY);
-            }
-        }
-    }
-    minuteCounter++;
-    if (newCurrentPositionSet.has((trueWidth - 2) + ',' + (trueHeight - 1))) {
-        currentWindSet = cloneDeep(newWindSet);
-        currentPositionSet = cloneDeep(newCurrentPositionSet);
-        newWindSet.clear();
-        newCurrentPositionSet.clear();
-        noDirectionWindSet.clear();
-        break;
-    }
-    currentWindSet = cloneDeep(newWindSet);
-    currentPositionSet = cloneDeep(newCurrentPositionSet);
-    newWindSet.clear();
-    newCurrentPositionSet.clear();
-    noDirectionWindSet.clear();
-}
+calculatePath((trueWidth - 2) + ',' + (trueHeight - 1));
+
 console.log('last part', minuteCounter);
 
 const t1 = performance.now();
