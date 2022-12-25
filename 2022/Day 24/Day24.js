@@ -30,8 +30,6 @@ for (let i = 0; i < arr.length; i++) {
     }
 }
 
-// console.log('wind:', currentWindSet);
-
 let trueWidth = arr[0].length;
 let trueHeight = arr.length;
 
@@ -86,7 +84,6 @@ while (true) {
             }
         }
     }
-    // console.log('new wind:', newWindSet);
     for (const currentPosition of currentPositionSet) {
         const [currentPositionX, currentPositionY] = currentPosition.split(',').map(number => parseInt(number));
         for (const direction of directionArray) {
@@ -111,7 +108,6 @@ while (true) {
     if (newCurrentPositionSet.has((trueWidth - 2) + ',' + (trueHeight - 1))) {
         break;
     }
-    // console.log('newcurrentpositionset', newCurrentPositionSet);
     currentWindSet = cloneDeep(newWindSet);
     currentPositionSet = cloneDeep(newCurrentPositionSet);
     newWindSet.clear();
