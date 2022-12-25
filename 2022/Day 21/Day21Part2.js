@@ -36,6 +36,7 @@ for (let i = 0; i < arr.length; i++) {
         newArr.push({key: key.substring(0, key.length - 1), value: value + ',' + operator + ',' + secondMonkey})
     }
 }
+console.log(monkeyValue);
 let tempMonkeyValue = cloneDeep(monkeyValue);
 
 let humnIndex = monkeyValue.findIndex(element => element.key === 'humn');
