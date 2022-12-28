@@ -1,3 +1,7 @@
+// run it normally, for each small cave, send a parameter to continuePath which lets you visit that specific small cave twice
+
+// add the paths to a set so no duplicates, then get the size of the set rather than incrementing a counter whenever you see "end"
+
 const {readFileSync, promises: fsPromises} = require('fs');
 
 const {cloneDeep} = require('lodash');
@@ -22,9 +26,12 @@ function initializePaths(first, second) {
             }
         }
     }
+    if (!(first.toUpperCase() === first) && first !== 'end' && first !== 'start') {
+        smallCave.add(first);
+    }
 }
 
-function continuePath(input, visited, currentPath) { // don't actually need currentPath, was just used for debugging
+function continuePath(input, visited, currentPath, duplicateValue, used) {
     if (!(input.toUpperCase() === input) && input !== 'start' && input !== 'end') {
         visited.add(input);
     }
@@ -34,19 +41,27 @@ function continuePath(input, visited, currentPath) { // don't actually need curr
         const newPath = cloneDeep(currentPath);
         if (value === 'end') {
             newPath.push(value);
-            numberOfPaths++;
+            const newPathString = newPath.join();
+            allPaths.add(newPathString);
             continue;
         }
         if (!visited.has(value)) {
             newPath.push(value);
-            continuePath(value, newVisited, newPath);
+            continuePath(value, newVisited, newPath, duplicateValue, used);
+            continue;
+        }
+        if (value === duplicateValue && used === false) {
+            newPath.push(value);
+            continuePath(value, newVisited, newPath, duplicateValue, true)
         }
     }
 }
 
 const pathArray = [];
 
-let numberOfPaths = 0;
+const allPaths = new Set();
+
+const smallCave = new Set();
 
 for (const item of arr) {
     const [firstConnection, secondConnection] = item.split('-');
@@ -54,6 +69,8 @@ for (const item of arr) {
     initializePaths(secondConnection, firstConnection);
 }
 
-continuePath('start', new Set(), ['start']);
+for (const item of smallCave) {
+    continuePath('start', new Set(), ['start'], item, false);
+}
 
-console.log('ans:', numberOfPaths);
+console.log('ans:', allPaths.size);
