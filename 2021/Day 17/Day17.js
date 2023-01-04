@@ -10,8 +10,6 @@ function syncReadFile(filename) {
 
 arr = syncReadFile('./input.txt');
 
-let [temp, temp2, yValues] = arr[0].split('=');
-
-minY = parseInt(yValues.split('..')[0]);
+const minY = parseInt(arr[0].split('=')[2].split('..')[0]);
 
 console.log((-minY - 1) * -minY / 2);
