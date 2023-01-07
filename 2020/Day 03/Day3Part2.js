@@ -10,8 +10,6 @@ function syncReadFile(filename) {
 
 let arr = syncReadFile('./input.txt');
 
-let currentRowCounter = 0;
-let currentPosition = '0,0';
 let finalAnswer = 1;
 
 finalAnswer *= findTrees(0, '0,0', 0, 1, 1);
