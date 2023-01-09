@@ -12,7 +12,7 @@ function syncReadFile(filename) {
 
 let arr = syncReadFile('./input.txt').map(e => parseInt(e));
 
-const findNumber = 36845998;
+const findNumber = 36845998; // from part 1
 
 for (let i = 0; i < arr.length - 25; i++) {
     let currentSum = 0;
