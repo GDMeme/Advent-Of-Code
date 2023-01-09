@@ -1,7 +1,5 @@
 const {readFileSync, promises: fsPromises} = require('fs');
 
-const {cloneDeep} = require('lodash');
-
 function syncReadFile(filename) {
   const contents = readFileSync(filename, 'utf-8');
 
