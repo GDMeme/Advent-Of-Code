@@ -14,26 +14,31 @@ const spokenNumberArray = new Array(30000000);
 
 let currentIndex = 0;
 
-for (const elem of arr) {
-    spokenNumberArray[currentIndex] = elem;
+const lastIndexMap = new Map();
+
+for (let i = 0; i < arr.length - 1; i++) {
+    spokenNumberArray[currentIndex] = arr[i];
+    lastIndexMap.set(arr[i], currentIndex);
     currentIndex++;
 }
 
+spokenNumberArray[currentIndex] = arr[arr.length - 1];
+currentIndex++;
+
 while (currentIndex !== 30000000) {
-    const lastNumber = spokenNumberArray[spokenNumberArray.length - 1];
-    const comparisonArray = spokenNumberArray.slice(0, -1);
-    if (comparisonArray.includes(lastNumber)) {
-        const lastIndex = spokenNumberArray.lastIndexOf(lastNumber);
-        const secondLastIndex = spokenNumberArray.lastIndexOf(lastNumber, lastIndex - 1);
-        spokenNumberArray[currentIndex] = lastIndex - secondLastIndex;
+    const lastNumber = spokenNumberArray[currentIndex - 1];
+    if (lastIndexMap.has(lastNumber)) {
+        spokenNumberArray[currentIndex] = currentIndex - 1 - lastIndexMap.get(lastNumber);
     } else { // make a map which has the index of the last number (don't use includes)
         // store the number you're about to add; on the next iteration, add it to the map and array after checking if the key exists in the map
         spokenNumberArray[currentIndex] = 0;
     }
+    lastIndexMap.set(lastNumber, currentIndex - 1);
     currentIndex++;
-    if (currentIndex % 100000 === 0) {
-        console.log(currentIndex);
-    }
+
 }
+
+// console.log(spokenNumberArray);
+// console.log(lastIndexMap);
 
 console.log(spokenNumberArray[29999999]);
