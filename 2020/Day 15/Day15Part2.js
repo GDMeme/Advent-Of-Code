@@ -29,16 +29,11 @@ while (currentIndex !== 30000000) {
     const lastNumber = spokenNumberArray[currentIndex - 1];
     if (lastIndexMap.has(lastNumber)) {
         spokenNumberArray[currentIndex] = currentIndex - 1 - lastIndexMap.get(lastNumber);
-    } else { // make a map which has the index of the last number (don't use includes)
-        // store the number you're about to add; on the next iteration, add it to the map and array after checking if the key exists in the map
+    } else {
         spokenNumberArray[currentIndex] = 0;
     }
     lastIndexMap.set(lastNumber, currentIndex - 1);
     currentIndex++;
-
 }
-
-// console.log(spokenNumberArray);
-// console.log(lastIndexMap);
 
 console.log(spokenNumberArray[29999999]);
