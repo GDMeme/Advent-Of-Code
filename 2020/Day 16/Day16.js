@@ -28,7 +28,7 @@ index = index + 5;
 let globalLower = Number.MAX_SAFE_INTEGER;
 let globalUpper = Number.MIN_SAFE_INTEGER;
 
-for (const [key, value] of fieldNameRangeMap) {
+for (const value of fieldNameRangeMap.values()) {
     const [firstRange, secondRange] = value.split(',');
     const [firstLower, firstUpper] = firstRange.split('-').map(e => parseInt(e));
     const [secondLower, secondUpper] = secondRange.split('-').map(e => parseInt(e));
@@ -58,25 +58,3 @@ for (let i = index; i < arr.length; i++) {
 }
 
 console.log(sum);
-
-// misunderstood the instructions
-
-// const myTicket = arr[index].split(',').map(e => parseInt(e));
-
-// const matchingTicketArray = [];
-
-// for (let i = 0; i < myTicket.length; i++) {
-//     matchingTicketArray.push([]);
-//     for (const [key, value] of fieldNameRangeMap) {
-//         const [firstRange, secondRange] = value.split(',');
-//         const [firstLower, firstUpper] = firstRange.split('-').map(e => parseInt(e));
-//         const [secondLower, secondUpper] = secondRange.split('-').map(e => parseInt(e));
-//         if ((myTicket[i] >= firstLower && myTicket[i] <= firstUpper) || (myTicket[i] >= secondLower && myTicket[i] <= secondUpper)) {
-//             matchingTicketArray[i].push(key);
-//         }
-//     }
-// }
-
-// for (const elem of matchingTicketArray) {
-//     console.log(elem.length);
-// }

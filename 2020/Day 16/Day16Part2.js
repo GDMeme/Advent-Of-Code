@@ -32,7 +32,7 @@ index += 3;
 let globalLower = Number.MAX_SAFE_INTEGER;
 let globalUpper = Number.MIN_SAFE_INTEGER;
 
-for (const [key, value] of fieldNameRangeMap) {
+for (const value of fieldNameRangeMap.values()) {
     const [firstRange, secondRange] = value.split(',');
     const [firstLower, firstUpper] = firstRange.split('-').map(e => parseInt(e));
     const [secondLower, secondUpper] = secondRange.split('-').map(e => parseInt(e));
@@ -87,7 +87,7 @@ const possibleFields = [];
 
 for (let i = 0; i < fieldNameRangeMap.size; i++) {
     possibleFields.push([]);
-    for (const [key, value] of fieldNameRangeMap) {
+    for (const key of fieldNameRangeMap.keys()) {
         let notPossible = false;
         for (let k = 0; k < matchingTicketArray.length; k++) {
             if (matchingTicketArray[k][i].includes(key)) {
