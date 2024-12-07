@@ -10,6 +10,8 @@ function syncReadFile(filename) {
 
 let arr = syncReadFile('./input.txt');
 
+ // TODO: Optimize (only need to place extra wall at the spots the guard would originally pass through)
+
 // 0 - up
 // 1 - right
 // 2 - down
