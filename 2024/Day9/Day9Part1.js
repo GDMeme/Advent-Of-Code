@@ -12,11 +12,9 @@ let arr = syncReadFile('./input.txt');
 
 // 1 => 0, 2 => 0, 3 => 2, 4 => 2
 let currentEndIndex = 2 * Math.floor((arr[0].length - 1) / 2);
-console.log(currentEndIndex);
 
 // 1 => 0, 2 => 0, 3 => 1, 4 => 1
 let currentEndFileID = Math.floor((arr[0].length - 1) / 2);
-console.log(currentEndFileID);
 
 let result = 0;
 
