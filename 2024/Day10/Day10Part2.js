@@ -12,14 +12,12 @@ let arr = syncReadFile('./input.txt');
 
 const directionArray = [[0, 1], [1, 0], [0, -1], [-1, 0]];
 
-const reachableNines = new Set();
-
 function outOfBounds(x, y) {
     return x >= arr[0].length || x < 0 || y >= arr.length || y < 0;
 }
 
 function BFS(x, y, currentHeight) {
-    let returnValue = 0;
+    let numRatings = 0;
     for (const direction of directionArray) {
         const [addX, addY] = direction.map(e => parseInt(e));
         const currentX = x + addX;
@@ -31,14 +29,14 @@ function BFS(x, y, currentHeight) {
         
         if (parseInt(arr[currentY][currentX]) === currentHeight + 1) {
             if (currentHeight === 8) { // Found a 9
-                returnValue += 1;
+                numRatings += 1;
                 continue;
             }
             
-            returnValue += BFS(currentX, currentY, currentHeight + 1);
+            numRatings += BFS(currentX, currentY, currentHeight + 1);
         }
     }
-    return returnValue;
+    return numRatings;
 }
 
 let result = 0;
