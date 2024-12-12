@@ -19,7 +19,7 @@ function outOfBounds(x, y) {
 function BFS(x, y, currentHeight) {
     let numRatings = 0;
     for (const direction of directionArray) {
-        const [addX, addY] = direction.map(e => parseInt(e));
+        const [addX, addY] = direction;
         const currentX = x + addX;
         const currentY = y + addY;
         
