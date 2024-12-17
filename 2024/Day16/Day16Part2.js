@@ -46,7 +46,7 @@ for (let i = 0; i < arr.length; i++) {
 let partOfBestPath = new Set();
 
 while (frontier.length !== 0) {
-    ({coords, currentScore, direction, visited} = frontier.pop()); // JS destructuring assignment
+    ({coords, currentScore, direction, visited} = frontier.shift()); // JS destructuring assignment
     
     const [x, y] = coords.split(",").map(e => parseInt(e));
     

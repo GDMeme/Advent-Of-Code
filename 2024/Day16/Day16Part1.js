@@ -10,8 +10,6 @@ function syncReadFile(filename) {
 
 let arr = syncReadFile('./input.txt');
 
-// Super slow runtime (24.855 seconds), not sure how to optimize
-
 const directionArray = [[0, 1], [1, 0], [0, -1], [-1, 0]]; // North East South West
 
 // Find S and E
@@ -46,7 +44,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 
 while (frontier.length !== 0) {
-    ({coords, currentScore, direction, visited} = frontier.pop()); // JS destructuring assignment
+    ({coords, currentScore, direction, visited} = frontier.shift()); // JS destructuring assignment
     
     const [x, y] = coords.split(",").map(e => parseInt(e));
     
