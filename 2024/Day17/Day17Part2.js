@@ -41,7 +41,7 @@ function doProgram(A) {
         if (opcode === 0n) { // adv
             registerA = registerA >> getComboOperand(literalOperand);
         } else if (opcode === 1n) { // bxl
-            registerB = registerB ^ BigInt(literalOperand);
+            registerB = registerB ^ literalOperand;
         } else if (opcode === 2n) { // bst
             registerB = getComboOperand(literalOperand) % 8n;
         } else if (opcode === 3n) { // jnz
