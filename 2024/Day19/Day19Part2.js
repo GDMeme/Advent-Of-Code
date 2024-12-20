@@ -43,10 +43,9 @@ for (const towel of availableTowels) {
 }
 
 let totalPossible = 0;
-let cache = new Map();
+const cache = new Map();
 
 for (let i = 2; i < arr.length; i++) {
-    possible = 0;
     totalPossible += checkIfPossible(arr[i]);    
 }
 
