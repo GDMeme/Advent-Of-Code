@@ -1,4 +1,4 @@
-const {readFileSync, writeFileSync, promises: fsPromises} = require('fs');
+const {readFileSync, promises: fsPromises} = require('fs');
 
 function syncReadFile(filename) {
     const contents = readFileSync(filename, 'utf-8');
