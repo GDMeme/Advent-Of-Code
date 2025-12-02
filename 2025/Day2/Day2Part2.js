@@ -27,11 +27,10 @@ for (const range of ranges) {
         } else {
             repeatedCurrentNumber = parseInt(currentNumber.toString().repeat(Math.ceil(startLength / currentNumber.toString().length)));
         }
-        
+
         while (repeatedCurrentNumber <= endRange) {
             if (repeatedCurrentNumber >= startRange && repeatedCurrentNumber <= endRange && !foundNumbers.has(repeatedCurrentNumber)) {
                 foundNumbers.add(repeatedCurrentNumber);
-                console.log(repeatedCurrentNumber);
                 ans += repeatedCurrentNumber;
             }
             repeatedCurrentNumber = parseInt(repeatedCurrentNumber.toString() + currentNumber.toString());
