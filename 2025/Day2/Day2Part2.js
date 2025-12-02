@@ -1,4 +1,5 @@
 const {readFileSync, promises: fsPromises} = require('fs');
+const { start } = require('repl');
 
 function syncReadFile(filename) {
     const contents = readFileSync(filename, 'utf-8');
@@ -19,15 +20,18 @@ for (const range of ranges) {
     const endLength = endRange.toString().length;
 
     let currentNumber = 1;
-    // console.log("currentNumber start:", currentNumber);
     while (true) {
-        let repeatedCurrentNumber = parseInt(currentNumber.toString().repeat(Math.ceil(startLength / currentNumber.toString().length)));
-        // console.log("currentNumber: ", currentNumber);
-        // console.log("repeatedCurrentNumber: ", repeatedCurrentNumber);
+        let repeatedCurrentNumber;
+        if (Math.ceil(startLength / currentNumber.toString().length) < 2) { // Edge case for when startLength is 1
+            repeatedCurrentNumber = parseInt(currentNumber.toString().repeat(2));
+        } else {
+            repeatedCurrentNumber = parseInt(currentNumber.toString().repeat(Math.ceil(startLength / currentNumber.toString().length)));
+        }
+        
         while (repeatedCurrentNumber <= endRange) {
             if (repeatedCurrentNumber >= startRange && repeatedCurrentNumber <= endRange && !foundNumbers.has(repeatedCurrentNumber)) {
                 foundNumbers.add(repeatedCurrentNumber);
-                // console.log(repeatedCurrentNumber);
+                console.log(repeatedCurrentNumber);
                 ans += repeatedCurrentNumber;
             }
             repeatedCurrentNumber = parseInt(repeatedCurrentNumber.toString() + currentNumber.toString());
