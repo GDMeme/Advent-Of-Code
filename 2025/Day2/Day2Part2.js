@@ -9,7 +9,7 @@ function syncReadFile(filename) {
     return arr;
 }
 
-let arr = syncReadFile('./input.txt');
+const arr = syncReadFile('./input.txt');
 
 const ranges = arr[0].split(',');
 let ans = 0;

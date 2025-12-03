@@ -8,7 +8,7 @@ function syncReadFile(filename) {
     return arr;
 }
 
-let arr = syncReadFile('./input.txt');
+const arr = syncReadFile('./input.txt');
 
 let ans = 0;
 for (const line of arr) {
