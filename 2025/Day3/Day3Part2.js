@@ -19,7 +19,8 @@ for (const line of arr) {
         for (let j = currNumToFind; j >= 0; j--) {
             const possibleIndex = line.indexOf(j, currPos);
             if (possibleIndex !== -1) {
-                if (possibleIndex + (11 - i) <= line.length - 1) {
+                // Check if there are enough numbers left
+                if (possibleIndex + (12 - i) <= line.length) {
                     numSoFar[i] = j;
                     currPos = possibleIndex + 1;
                     break;
