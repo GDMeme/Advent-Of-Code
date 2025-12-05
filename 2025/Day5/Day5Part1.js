@@ -44,7 +44,7 @@ for (let i = 1; i < ranges.length; i++) {
             for (let k = j + 1; k < currentRanges.length; k++) {
                 const [nextRangeStart, nextRangeEnd] = currentRanges[k].split('-').map(e => parseInt(e));
                 if (rangeEnd < nextRangeStart) { // Stop merging
-                    currentRanges[j] = `${currentRangeStart}-${rangeEnd}`;
+                    currentRanges[j] = `${currentRangeStart}-${rangeEnd > nextRangeEnd ? rangeEnd : nextRangeEnd}`;
                     break;
                 } else {
                     // Remove covered range and iterate again
