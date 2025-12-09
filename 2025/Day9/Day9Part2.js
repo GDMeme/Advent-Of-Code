@@ -162,11 +162,17 @@ for (let i = 0; i < arr.length; i++) {
         
         let valid = true;
         for (let x = rectMinX; x <= rectMaxX && valid; x++) {
+			if (x !== rectMinX && x !== rectMaxX) {
+				continue;
+			}
             for (let y = rectMinY; y <= rectMaxY; y++) {
-                if (outsideCoords.has(`${x},${y}`)) {
-                	valid = false;
-                	break;
-                }
+				if (y !== rectMinY && y !== rectMaxY) {
+					continue;
+				}
+				if (outsideCoords.has(`${x},${y}`)) {
+					valid = false;
+					break;
+				}
             }
         }
         
