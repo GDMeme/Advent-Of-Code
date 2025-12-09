@@ -36,10 +36,6 @@ function outOfBounds(x, y, minX, minY, maxX, maxY) {
     return x > maxX || y > maxY || x < minX || y < minY;
 }
 
-function parseCoord(str) {
-	return str.split(',').map(Number);
-}
-
 // Shrink the coordinates
 const xSorted = arr.toSorted((a, b) => {
     const [aX] = a.split(',').map(Number);
@@ -86,7 +82,7 @@ for (let i = 0; i < arr.length; i++) {
 
 // Find perimeter coordinates
 let perimeterCoords = new Set([arr[0]]);
-const coords = arr.map(parseCoord);
+const coords = arr.map(e => e.split(',').map(Number));
 
 let minX = Infinity;
 let maxX = -Infinity;
