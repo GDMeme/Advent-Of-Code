@@ -119,7 +119,7 @@ perimeterCoords = addToPerimeter(lastX, firstX, lastY, firstY, perimeterCoords);
 
 const directionArray = [[0, 1], [1, 0], [0, -1], [-1, 0]];
 
-// BFS to flood fill outside
+// DFS to flood fill outside
 const outsideCoords = new Set();
 let frontier = [[minX, minY]];
 
