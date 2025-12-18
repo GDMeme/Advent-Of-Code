@@ -9,7 +9,13 @@ readFileSync('./input.txt', 'utf-8').split(/\r?\n/).map(line => {
 // Observation: Directed acyclic graph, fft can go to dac but dac cannot go to fft
 // So paths must be start -> fft -> dac -> out
 
+const dacCache = new Map();
+
 function countPathsDacToOut(key) {
+    if (dacCache.has(key)) {
+        return dacCache.get(key);
+    }
+
     if (key === 'out') {
         return 1;
     }
@@ -31,7 +37,7 @@ function countPathsFftToDac(key) {
     }
     
     if (key === 'dac') {
-        return 1;;
+        return 1;
     }
 
     if (key === 'out') {
@@ -72,8 +78,6 @@ function countPathsSvrToFft(key) {
     svrCache.set(key, svrCount);
     return svrCount;
 }
-
-const dacCache = new Map();
 
 let dacCount = 0;
 for (const key of inputOutputMap.get('dac')) {
