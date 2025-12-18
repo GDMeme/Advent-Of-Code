@@ -29,7 +29,7 @@ function nextOptimalValve(currValve, timeLeft, contesters) {
 		if (newTime <= 0) { 
 			continue;
 		}
-		const score = newTime * tunnelMap.get(contester).flowRate;
+		let score = newTime * tunnelMap.get(contester).flowRate;
 		const optimal = nextOptimalValve(contester, newTime, newContesters);
 		score += optimal.value;
 
@@ -48,7 +48,7 @@ function distanceTo(currValve, targetValve) {
 		return distanceMemo.get(key);
 	}
 	const visited = new Set();
-	const queue = [currValve];
+	let queue = [currValve];
 	let traveled = 0;
 
 	while (queue.length > 0) {
@@ -62,7 +62,7 @@ function distanceTo(currValve, targetValve) {
 				distanceMemo.set(key, traveled);
 				return traveled;
 			}
-			for (let neighbor of tunnelMap.get(valve).neighbours) {
+			for (const neighbor of tunnelMap.get(valve).neighbours) {
 				nextQueue.push(neighbor);
 			}
 		}

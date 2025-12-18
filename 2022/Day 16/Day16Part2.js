@@ -47,22 +47,22 @@ function distanceTo(currValve, targetValve) {
     if (distanceMemo.has(key)) {
         return distanceMemo.get(key);
     }
-    const visisted = new Set();
+    const visited = new Set();
     let queue = [currValve];
     let traveled = 0;
 
     while (queue.length > 0) {
         const nextQueue = [];
         for (const valve of queue) {
-            if (visisted.has(valve)) {
+            if (visited.has(valve)) {
                 continue;
             }
-            visisted.add(valve);
+            visited.add(valve);
             if (valve === targetValve) {
                 distanceMemo.set(key, traveled);
                 return traveled;
             }
-            for (let neighbor of tunnelMap.get(valve).neighbours) {
+            for (const neighbor of tunnelMap.get(valve).neighbours) {
                 nextQueue.push(neighbor);
             }
         }
