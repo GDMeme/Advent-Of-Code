@@ -9,7 +9,7 @@ readFileSync('./input.txt', 'utf-8').split(/\r?\n/).map(line => {
 // Observation: Directed acyclic graph, fft can go to dac but dac cannot go to fft
 // So paths must be start -> fft -> dac -> out
 
-function countPathsDacToOut(key, startKey) {
+function countPathsDacToOut(key) {
     if (key === 'out') {
         return 1;
     }
