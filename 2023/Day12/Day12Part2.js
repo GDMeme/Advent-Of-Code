@@ -42,4 +42,3 @@ for (const line of arr) {
 }
 
 console.log(ans);
-
