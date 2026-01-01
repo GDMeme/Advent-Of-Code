@@ -1,3 +1,5 @@
+// Method 1 gives wrong answer, method 2 gives correct answer 
+
 const {readFileSync, promises: fsPromises} = require('fs');
 
 function syncReadFile(filename) {
