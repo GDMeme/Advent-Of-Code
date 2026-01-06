@@ -2,7 +2,7 @@ const { readFileSync } = require('fs');
 
 const arr = readFileSync('./input.txt', 'utf-8').split(/\r?\n/);
 
-class Heap {
+class MinHeap {
     constructor(arr, valueFunc = (e) => e) {
         this.arr = [];
         this.valueFunc = valueFunc;
@@ -30,8 +30,9 @@ class Heap {
     }
 
     fixUp(index) {
-        if (index === 0)
+        if (index === 0) {
             return true;
+        }
 
         const val = this.valueFunc(this.arr[index]);
         const parentIndex = this.parentIndex(index);
@@ -76,6 +77,10 @@ class Heap {
             throw new Error("tried to extract min from an empty heap!")
         }
         
+        if (this.arr.length === 1) {
+            return this.arr.pop();
+        }
+        
         const val = this.arr[0];
         const lastElem = this.arr.pop();
         
@@ -115,7 +120,7 @@ function getNextPosition(x, y, direction) {
     }
 }
 
-const heap = new Heap(
+const heap = new MinHeap(
     [
         { x: 0, y: 0, direction: 'right', numTimes: 0, heatLoss: 0 }, 
         { x: 0, y: 0, direction: 'down', numTimes: 0, heatLoss: 0 }
