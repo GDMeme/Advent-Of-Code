@@ -1,3 +1,6 @@
+// Really slow and off by one on the sample input, maybe will come back to this later
+// Very similar to AOC 2023 Day 17
+
 const {readFileSync, promises: fsPromises} = require('fs');
 
 function syncReadFile(filename) {
