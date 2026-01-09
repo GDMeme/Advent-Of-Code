@@ -57,8 +57,7 @@ while (frontier.length) {
 
         const key = `${newX},${newY}`;
         if (visited.has(key)) {
-            continue;
-            
+            continue; 
         }
 
         // Infinite tiling
