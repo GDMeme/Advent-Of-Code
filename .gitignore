@@ -3,3 +3,4 @@
 z3-4.15.4-x64-win
 *.exe
 .vscode
+*.pdb
