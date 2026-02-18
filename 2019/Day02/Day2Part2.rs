@@ -11,7 +11,6 @@
         
         for noun in 0..100 {
             for verb in 0..100 {
-                println!("Trying noun {}, verb {}", noun, verb);
                 let mut idx = 0;
                 let mut current_numbers = numbers.clone();
                 current_numbers[1] = noun;
