@@ -1,0 +1,147 @@
+const { readFileSync } = require('fs');
+
+const arr = readFileSync('./input.txt', 'utf-8').split(/\r?\n/);
+
+class MinHeap {
+    constructor(arr, valueFunc = (e) => e) {
+        this.arr = [];
+        this.valueFunc = valueFunc;
+
+        for (const e of arr) {
+            this.insert(e);
+        }
+    }
+    
+    clear() {
+        this.arr = [];
+    }
+
+    size() {
+        return this.arr.length;
+    }
+
+    parentIndex(index) {
+        return Math.floor((index - 1) / 2);
+    }
+    
+    insert(elem) {
+        this.arr.push(elem);
+        this.fixUp(this.arr.length - 1);
+    }
+
+    fixUp(index) {
+        if (index === 0) {
+            return true;
+        }
+
+        const val = this.valueFunc(this.arr[index]);
+        const parentIndex = this.parentIndex(index);
+        const parentVal = this.valueFunc(this.arr[parentIndex]);
+        
+        if (val < parentVal) {
+            [this.arr[index], this.arr[parentIndex]] = [this.arr[parentIndex], this.arr[index]];
+            return this.fixUp(parentIndex);
+        }
+        return true;
+    }
+
+    fixDown(index) {
+        const val = this.valueFunc(this.arr[index]);
+        const leftIndex = 2 * index + 1;
+        const rightIndex = 2 * index + 2;
+        const left = leftIndex < this.size() ? this.valueFunc(this.arr[leftIndex]) : Infinity;
+        const right = rightIndex < this.size() ? this.valueFunc(this.arr[rightIndex]) : Infinity;
+
+        if (val <= left && val <= right) {
+            return true;
+        } else if (left < right) {
+            [this.arr[index], this.arr[leftIndex]] = [this.arr[leftIndex], this.arr[index]];
+            return this.fixDown(leftIndex);
+        } else {
+            [this.arr[index], this.arr[rightIndex]] = [this.arr[rightIndex], this.arr[index]];
+            return this.fixDown(rightIndex);
+        }
+    }
+
+    peek() {
+        if (this.arr.length === 0) {
+            console.log("tried to peek an empty heap!");
+            return false;
+        }
+        
+        return this.arr[0];
+    }
+
+    extractMin() {
+        if (this.arr.length === 0) {
+            throw new Error("tried to extract min from an empty heap!")
+        }
+        
+        if (this.arr.length === 1) {
+            return this.arr.pop();
+        }
+        
+        const val = this.arr[0];
+        const lastElem = this.arr.pop();
+        
+        this.arr[0] = lastElem;
+        this.fixDown(0);
+        return val;
+    }
+}
+
+function outOfBounds(x, y) {
+    return x < 0 || x >= arr[0].length * 5 || y < 0 || y >= arr.length * 5;
+}
+
+const width = arr[0].length;
+const height = arr.length;
+
+function getCost(x, y) {
+    const column = Math.floor(x / width); // 0 index
+    const row = Math.floor(y / height); // 0 index
+    
+    const baseCost = parseInt(arr[y % height][x % width]);
+    const newCost = baseCost + column + row;
+    return newCost > 9 ? newCost - 9 : newCost;
+}
+
+const directionArray = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0]
+];
+
+const heap = new MinHeap(
+    [
+        { x: 0, y: 0, cost: 0 }
+    ],
+    (e) => e.cost
+);
+
+const bestSoFar = new Map();
+
+while (heap.peek()) {
+    const { x, y, cost } = heap.extractMin();
+    
+    for (const [dx, dy] of directionArray) {
+        const newX = x + dx;
+        const newY = y + dy;
+
+        if (outOfBounds(newX, newY)) {
+            continue;
+        }
+
+        const newCost = cost + getCost(newX, newY);
+        if (!bestSoFar.has(`${newX},${newY}`) || newCost < bestSoFar.get(`${newX},${newY}`)) {
+            bestSoFar.set(`${newX},${newY}`, newCost);
+            heap.insert({ x: newX, y: newY, cost: newCost });
+        }
+    }
+    
+    if (x === arr[0].length * 5 - 1 && y === arr.length * 5 - 1) {
+        console.log(cost);
+        break;
+    }
+}
