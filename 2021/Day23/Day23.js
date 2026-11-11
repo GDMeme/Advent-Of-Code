@@ -150,8 +150,7 @@ function getPossibleMoves(state, roomDepth) {
             const destinationEntrance = ROOM_ENTRANCES[destinationRoom];
 
             if (hallwayClear(entrance, destinationEntrance)) {
-                const destinationDepth =
-                    getDestinationDepth(destinationRoom, amphipod);
+                const destinationDepth = getDestinationDepth(destinationRoom, amphipod);
 
                 if (destinationDepth !== -1) {
                     const steps =
